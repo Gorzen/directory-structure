@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Manage directories main run file. Run it to see and check your directory structure vs your config."""
+"""
+The main file of the project manage-directories.
+Run it to see and check your directory structure vs your config.
+"""
 
 # TODOS:
 # Add rule for unknown directories
@@ -52,13 +55,19 @@ def check_rules0(dir_structure: dict) -> None:
     for directory in directories:
         check_directory(directory)
 
-    return 0
-
 
 def main(print_rules: bool, check_rules: bool, verbose: bool) -> None:
     """Main function."""
     dir_structure_path = os.path.join(
         os.path.dirname(__file__), "..", "config", "directories_structure.yml"
+    )
+
+    print(
+        f"""
+        print_rules={print_rules}
+        check_rules={check_rules}
+        verbose={verbose}
+        """
     )
 
     with open(dir_structure_path, "r", encoding="utf-8") as dir_structure_file:

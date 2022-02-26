@@ -1,5 +1,9 @@
 init:
 	pipenv install
+	pipenv shell
+
+run:
+	python src/directories.py
 
 test:
 	# Black formatter
@@ -12,4 +16,4 @@ test:
 	# Mypy static type checker
 	-mypy src/
 
-.PHONY: init test
+.PHONY: init run test
