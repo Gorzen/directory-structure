@@ -25,7 +25,7 @@ class NoUnknownDirectories(Rule):
         "NoUnknownDirectories()"
 
     def check(self, path):
-        return ''
+        return True
 
 
 class NoVisibleFiles(Rule):
@@ -37,7 +37,7 @@ class NoVisibleFiles(Rule):
         "NoVisibleFiles()"
 
     def check(self, path):
-        return ''
+        return True
 
 
 class NoHiddenFiles(Rule):
@@ -49,7 +49,8 @@ class NoHiddenFiles(Rule):
         "NoHiddenFiles()"
 
     def check(self, path):
-        return ''
+        return True
 
 
-allRules = [NoUnknownDirectories, NoVisibleFiles, NoHiddenFiles]
+# All the defined rules
+ALL_RULES = [NoUnknownDirectories(), NoVisibleFiles(), NoHiddenFiles()]

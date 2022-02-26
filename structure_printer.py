@@ -13,7 +13,7 @@ TEE  = '├── '
 LAST = '└── '
 
 
-def print_structure(dir_structure):
+def print_dir_structure(dir_structure):
     """Print the total directory structure in a tree-like fashion."""
     directories = dir_structure['directories']
     check_is_list(directories)

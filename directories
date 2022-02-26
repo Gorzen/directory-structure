@@ -1,136 +1,72 @@
-#!python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Directory structure run file. Run it to see and check your directory structure vs your config."""
 
 # TODOS:
-
-# Change to pretty binary tree printer
-# Similar to tree
-# https://www.baeldung.com/java-print-binary-tree-diagram
-
-# Directory names in bold
-
-# Clean code printer (prefix_info)
-
 # Clean argparse
-
 # Add main function
-
-# Add doc to functions
-
 # Add rule for unknown directories
 
-from rules import allRules
+import os
 import yaml
 
-
-# Colors for terminal
-class Style():
-    BLACK = '\033[30m'
-    RED = '\033[31m'
-    GREEN = '\033[32m'
-    YELLOW = '\033[33m'
-    BLUE = '\033[34m'
-    MAGENTA = '\033[35m'
-    CYAN = '\033[36m'
-    WHITE = '\033[37m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    RESET = '\033[0m'
+from structure_printer import print_dir_structure, get_subdirs
+from rules import ALL_RULES
 
 
-# prefix components
-space  = '    '
-branch = '│   '
+def check_rules_equal(dir_structure):
+    """Check config rules and implemented rules are the same."""
+    config_rules = list(dir_structure['rules'].keys())
+    script_rules = list(map(lambda rule: rule.key, ALL_RULES))
 
-# pointers
-tee  = '├── '
-last = '└── '
-
-
-def check_is_list(l):
-    assert(isinstance(l, list))
-
-
-def get_subdirs(directory):
-    subdirs = directory['subdirs'] if 'subdirs' in directory else []
-    check_is_list(subdirs)
-    return subdirs
+    if config_rules != script_rules:
+        raise ValueError(
+        f"""Config rules and rules implemented are different !
+        Config rules: {config_rules}
+        Implemented rules: {script_rules}""")
 
 
-def print_directory(directory, prefix="", prefix_info="", prefix_path="", root=False):
-    name = directory['name']
+def check_rules(dir_structure):
+    """Check user directories follow the rules specified in the config."""
+    check_rules_equal(dir_structure)
 
-    if root:
-        path = ""
-    else:
-        path = directory['path']
-        desc = directory['desc']
+    def check_directory(directory, prefix_path=''):
+        path = prefix_path + directory['path']
 
-    subdirs = get_subdirs(directory)
-
-    n = len(subdirs)
-
-    print(f"{prefix}{Style.YELLOW}{Style.BOLD}{name}{Style.RESET}")
-
-    pointer = '  ' if n == 0 else '│ '
-    
-    if root:
-        print(f"│")
-    else:
-        print(f"{prefix_info}{pointer}{Style.MAGENTA}Desc:{Style.RESET} {desc}")
-        print(f"{prefix_info}{pointer}{Style.MAGENTA}Path:{Style.RESET} {Style.CYAN}{prefix_path}{path}{Style.RESET}")
-        print(f"{prefix_info}{pointer}")
-        
-    for i, directory in enumerate(subdirs):
-        if i == n-1:
-            print_directory(directory, prefix_info + last, prefix_info + space, prefix_path + path)
-        else:
-            print_directory(directory, prefix_info + tee, prefix_info + branch, prefix_path + path)
-
-
-def check_rules_equal(config):
-    configRules = list(config['rules'].keys())
-    scriptRules = list(map(lambda rule: rule.key, allRules))
-    
-    if configRules != scriptRules:
-        raise ValueError(f"Config rules and rules defined in script are different !\nConfig rules: {configRules}\nScript rules: {scriptRules}")
-
-
-def check_rules(config):
-    check_rules_equal(config)
-
-    def check_directory(directory, prefixPath=''):
-        path = prefixPath + directory['path']
-
-        for rule in allRules:
+        for rule in ALL_RULES:
             rule.check(path)
 
-        for directory in get_subdirs(directory):
-            check_directory(directory, prefixPath)
+        for subdir in get_subdirs(directory):
+            check_directory(subdir, prefix_path)
 
-    directories = config['directories']
+    directories = dir_structure['directories']
 
     for directory in directories:
         check_directory(directory)
 
     return 0
 
+def main():
+    """Main function."""
 
-with open("directories.yml", "r") as f:
-    try:
-        data = yaml.safe_load(f)
-        directories = data['directories']
-        check_is_list(directories)
+    # This script's path
+    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-        check_rules(data)
+    directories_file = os.path.join(__location__, 'directories.yml')
 
-        root = {}
-        root['name'] = 'My directories'
-        root['subdirs'] = directories
+    with open(directories_file, "r", encoding='utf-8') as dir_structure_file:
+        try:
+            dir_structure = yaml.safe_load(dir_structure_file)
 
-        print_directory(root, root=True)
+            print_dir_structure(dir_structure)
 
-    except yaml.YAMLError as exc:
-        print("Error when loading yaml:")
-        print(exc)
+            check_rules(dir_structure)
+
+        except yaml.YAMLError as exc:
+            print("Error when loading yaml:")
+            print(exc)
 
 
+if __name__ == '__main__':
+    main()
