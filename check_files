@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "MyPy:"
+mypy .
+
+echo""
+
+echo "PyLint:"
+touch __init__.py
+pylint $(pwd)
+rm __init__.py
