@@ -10,7 +10,7 @@
 #   subdirs - list of sub-directories
 #
 # Rules for directories:
-#  noUnknownDirectories - specifies if directory is allowed to have sub-directories others that the ones declared in this YAML
+#  noUnknownDirectories - specifies if directory is allowed to have sub-directories others than the ones declared in this YAML
 #  noVisibleFiles       - specifies if directory is allowed to contain visible files
 #  noHiddenFiles        - specifies if directory is allowed to contain hidden files
 
