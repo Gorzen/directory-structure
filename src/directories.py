@@ -20,7 +20,7 @@ import argparse
 import os
 import yaml
 
-from structure_printer import print_dir_structure, get_subdirs
+from structure_printer import StructurePrettyPrinter, get_subdirs
 from rules import ALL_RULES
 
 
@@ -56,7 +56,7 @@ def check_rules0(dir_structure: dict) -> None:
         check_directory(directory)
 
 
-def main(print_rules: bool, check_rules: bool, verbose: bool) -> None:
+def main(print_checks: bool, check_rules: bool, verbose: bool) -> None:
     """Main function."""
     dir_structure_path = os.path.join(
         os.path.dirname(__file__), "..", "config", "directories_structure.yml"
@@ -64,7 +64,7 @@ def main(print_rules: bool, check_rules: bool, verbose: bool) -> None:
 
     print(
         f"""
-        print_rules={print_rules}
+        print_checks={print_checks}
         check_rules={check_rules}
         verbose={verbose}
         """
@@ -74,7 +74,9 @@ def main(print_rules: bool, check_rules: bool, verbose: bool) -> None:
         try:
             dir_structure = yaml.safe_load(dir_structure_file)
 
-            print_dir_structure(dir_structure)
+            pretty_printer = StructurePrettyPrinter(print_checks)
+
+            pretty_printer.print_dir_structure(dir_structure)
 
             check_rules0(dir_structure)
 
@@ -96,11 +98,11 @@ if __name__ == "__main__":
         "--check-rules", action="store_true", help="Check directory rules."
     )
     parser.add_argument(
-        "--print-rules",
+        "--print-checks",
         action="store_true",
-        help="Print in the tree the status of rules for each directory.",
+        help="Print in the tree all the checks performed.",
     )
     args = parser.parse_args()
 
     # Run main
-    main(args.print_rules, args.check_rules, args.verbose)
+    main(args.print_checks, args.check_rules, args.verbose)
