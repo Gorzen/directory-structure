@@ -3,13 +3,13 @@ init:
 
 test:
 	# Black formatter
-	black src/
+	-black src/
 	@echo ""
 
 	# Pylint code analysis
-	pylint src/
+	-pylint src/
 
 	# Mypy static type checker
-	mypy src/
+	-mypy src/
 
 .PHONY: init test
