@@ -4,6 +4,8 @@
 
 import os
 
+import check
+from rules import ALL_RULES
 import style
 
 # prefix components
@@ -19,9 +21,18 @@ class StructurePrettyPrinter:
     """Prints directory structure in a tree-like fashion."""
 
     print_checks: bool
+    check_rules: bool
 
-    def __init__(self, print_checks: bool) -> None:
+    # Rules config
+    rules_config: dict
+
+    # Global checkers
+    all_dirs_exist: bool
+    all_rules_pass: bool
+
+    def __init__(self, check_rules: bool, print_checks: bool) -> None:
         """Initialize object StructurePrettyPrinter."""
+        self.check_rules = check_rules
         self.print_checks = print_checks
 
     def __repr__(self) -> str:
@@ -30,12 +41,25 @@ class StructurePrettyPrinter:
 
     def print_dir_structure(self, dir_structure: dict) -> None:
         """Print the total directory structure in a tree-like fashion."""
+        # Init global checkers
+        self.all_dirs_exist = True
+        self.all_rules_pass = True
+
+        # Set rules config
+        self.rules_config = dir_structure["rules"]
+
+        # Get top-level directories
         directories = assert_list(dir_structure["directories"])
 
+        # Print root
         self.__print_dir_name("My directories")
         print(BRANCH)
 
+        # Print directories
         self.__print_sub_dirs(directories)
+
+        # Print info about global checkers
+        self.__print_global_checkers()
 
     def __print_sub_dirs(
         self, subdirs: list, prefix: str = "", prefix_path: str = ""
@@ -61,46 +85,76 @@ class StructurePrettyPrinter:
         prefix_path: str = "",
     ) -> None:
         """Print one directory in the tree."""
+        # Get mandatory fields
         name = directory["name"]
         path = prefix_path + directory["path"]
         desc = directory["desc"]
 
+        # Get sub directories
         subdirs = get_subdirs(directory)
 
-        dir_check = self.__is_dir_check(path)
+        # Print directory name
+        dir_exists = is_dir(path)
+        dir_check = (
+            check.success("directory exists", self.print_checks, True, True, " ")
+            if dir_exists
+            else check.failure("directory doesn't exist", self.print_checks, True, " ")
+        )
         self.__print_dir_name(name, prefix_name, dir_check)
 
+        # Print directory info
         pointer = "│ " if subdirs else "  "
-
         self.__print_dir_info(desc, path, prefix_info + pointer)
+
+        # Check rules
+        if self.check_rules:
+            self.__check_rules(directory, path, prefix_info + pointer)
+
+        # Print padding line
+        print(f"{prefix_info + pointer}")
+
+        # Print sub directories
         self.__print_sub_dirs(subdirs, prefix_info, path)
 
-    def __is_dir_check(self, path) -> str:
-        """Get is_directory check message."""
-        dir_exists = is_dir(path)
-        check = ""
+    def __check_rules(self, directory: dict, dir_path: str, prefix_print: str) -> None:
+        for rule in ALL_RULES:
+            # Find if we should check the rule or not
+            check_rule = directory.get(rule.key, self.rules_config[rule.key])
 
-        if dir_exists and self.print_checks:
-            check += f" {style.BOLD}{style.GREEN}"
-            check += "(OK: directory exists)"
-            check += f"{style.RESET}"
-
-        elif not dir_exists:
-            check += f" {style.BOLD}{style.RED}"
+            if check_rule:
+                rule_checked = rule.check(dir_path)
+                self.all_rules_pass = self.all_rules_pass and rule_checked
+                info = ""
+            else:
+                rule_checked = True
+                info = " (rule set to false, check will always pass)"
 
             if self.print_checks:
-                check += "(NOT OK: directory doesn't exist)"
+                check_msg = (
+                    check.success(f"{rule.name}{info}", self.print_checks)
+                    if rule_checked
+                    else check.failure(f"{rule.name}{info}", self.print_checks)
+                )
+                print(f"{prefix_print}{check_msg}")
+
+    def __print_global_checkers(self) -> None:
+        # Print all_dirs_exist check
+        if self.all_dirs_exist:
+            print(check.success("All directories exist !", self.print_checks, True))
+        else:
+            print(check.failure("Not all directories exist.", self.print_checks))
+
+        # Print all_rules_pass check
+        if self.check_rules:
+            if self.all_rules_pass:
+                print(check.success("All rules pass !", self.print_checks))
             else:
-                check += "(doesn't exist)"
-
-            check += f"{style.RESET}"
-
-        return check
+                print(check.failure("Not all rules pass.", self.print_checks))
 
     @staticmethod
-    def __print_dir_name(name: str, prefix: str = "", check: str = "") -> None:
+    def __print_dir_name(name: str, prefix: str = "", check_msg: str = "") -> None:
         """Pretty-print directory name."""
-        print(f"{prefix}{style.YELLOW}{style.BOLD}{name}{style.RESET}{check}")
+        print(f"{prefix}{style.YELLOW}{style.BOLD}{name}{style.RESET}{check_msg}")
 
     @staticmethod
     def __print_dir_info(desc: str, path: str, prefix_info: str) -> None:
@@ -110,11 +164,8 @@ class StructurePrettyPrinter:
         print(f"{desc}")
 
         # Print path
-        print(f"{prefix_info}{style.MAGENTA}Path:{style.RESET}", end="")
+        print(f"{prefix_info}{style.MAGENTA}Path:{style.RESET}", end=" ")
         print(f"{style.CYAN}{path}{style.RESET}")
-
-        # Print padding line
-        print(f"{prefix_info}")
 
 
 def is_dir(path: str) -> bool:

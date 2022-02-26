@@ -10,7 +10,6 @@ Run it to see and check your directory structure vs your config.
 # TODOS:
 # Add rule for unknown directories
 # Change 'check' function names to assert if they throw erros and don't return bool
-# Check if directory exists, print red warning next to name if not
 # Add option to give config path
 # Implement options
 # Use tox?
@@ -78,7 +77,7 @@ def main(print_checks: bool, check_rules: bool, verbose: bool) -> None:
         try:
             dir_structure = yaml.safe_load(dir_structure_file)
 
-            pretty_printer = StructurePrettyPrinter(print_checks)
+            pretty_printer = StructurePrettyPrinter(check_rules, print_checks)
 
             pretty_printer.print_dir_structure(dir_structure)
 
