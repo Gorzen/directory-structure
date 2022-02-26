@@ -21,9 +21,11 @@ class StructurePrettyPrinter:
     print_checks: bool
 
     def __init__(self, print_checks: bool) -> None:
+        """Initialize object StructurePrettyPrinter."""
         self.print_checks = print_checks
 
     def __repr__(self) -> str:
+        """Return a representation of a StructurePrettyPrinter object."""
         return f"StructurePrettyPrinter(print_checks={self.print_checks})"
 
     def print_dir_structure(self, dir_structure: dict) -> None:
@@ -38,7 +40,7 @@ class StructurePrettyPrinter:
     def __print_sub_dirs(
         self, subdirs: list, prefix: str = "", prefix_path: str = ""
     ) -> None:
-        """Prints sub directories."""
+        """Print sub directories."""
         num_subdirs = len(subdirs)
 
         for i, directory in enumerate(subdirs):
@@ -58,7 +60,7 @@ class StructurePrettyPrinter:
         prefix_info: str = "",
         prefix_path: str = "",
     ) -> None:
-        """Prints one directory in the tree."""
+        """Print one directory in the tree."""
         name = directory["name"]
         path = prefix_path + directory["path"]
         desc = directory["desc"]
@@ -75,7 +77,8 @@ class StructurePrettyPrinter:
     def __print_dir_name(self, name: str, dir_exists: bool, prefix: str = "") -> None:
         """
         Pretty-print directory name.
-        Prints warning if directory doesn't exist.
+
+        Prints warning if dir_exists is False.
         """
         warning = (
             ""
@@ -100,7 +103,7 @@ class StructurePrettyPrinter:
 
 
 def get_subdirs(directory: dict) -> list:
-    """Helper to get a list of subdirs for a directory."""
+    """Get list of sub directories for a directory."""
     subdirs = directory["subdirs"] if "subdirs" in directory else []
     return assert_list(subdirs)
 

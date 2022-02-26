@@ -6,16 +6,17 @@ from abc import ABC, abstractmethod
 
 
 class Rule(ABC):
-    """A rule for the directory structure"""
+    """A rule for the directory structure."""
 
     key: str
 
     def __repr__(self) -> str:
-        "Rule()"
+        """Return a representation of a Rule object."""
+        return "Rule()"
 
     @abstractmethod
     def check(self, path: str) -> bool:
-        """Check that rule is valid for the directory located at path"""
+        """Check that rule is valid for the directory located at path."""
         return NotImplemented
 
 
@@ -25,9 +26,11 @@ class NoUnknownDirectories(Rule):
     key = "noUnknownDirectories"
 
     def __repr__(self) -> str:
-        "NoUnknownDirectories()"
+        """Return a representation of a NoUnknownDirectories object."""
+        return "NoUnknownDirectories()"
 
     def check(self, path: str) -> bool:
+        """Check that rule is valid for the directory located at path."""
         return True
 
 
@@ -37,9 +40,11 @@ class NoVisibleFiles(Rule):
     key = "noVisibleFiles"
 
     def __repr__(self) -> str:
-        "NoVisibleFiles()"
+        """Return a representation of a NoVisibleFiles object."""
+        return "NoVisibleFiles()"
 
     def check(self, path: str) -> bool:
+        """Check that rule is valid for the directory located at path."""
         return True
 
 
@@ -49,9 +54,11 @@ class NoHiddenFiles(Rule):
     key = "noHiddenFiles"
 
     def __repr__(self) -> str:
-        "NoHiddenFiles()"
+        """Return a representation of a NoHiddenFiles object."""
+        return "NoHiddenFiles()"
 
     def check(self, path: str) -> bool:
+        """Check that rule is valid for the directory located at path."""
         return True
 
 

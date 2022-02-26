@@ -12,6 +12,9 @@ test:
 	# flake8 style guide enforcement
 	-flake8 src/
 	@echo ""
+	# pydocstyle docstring style checker
+	-pydocstyle src/
+	@echo ""
 	# Pylint code analysis
 	-pylint src/
 	# Mypy static type checker

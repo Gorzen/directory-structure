@@ -3,6 +3,7 @@
 
 """
 The main file of the project manage-directories.
+
 Run it to see and check your directory structure vs your config.
 """
 
@@ -57,7 +58,7 @@ def check_rules0(dir_structure: dict) -> None:
 
 
 def main(print_checks: bool, check_rules: bool, verbose: bool) -> None:
-    """Main function."""
+    """Run the program."""
     dir_structure_path = os.path.join(
         os.path.dirname(__file__), "..", "config", "directories_structure.yml"
     )

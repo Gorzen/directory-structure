@@ -10,6 +10,7 @@ pylint = "*"
 black = "*"
 types-pyyaml = "*"
 flake8 = "*"
+pydocstyle = "*"
 
 [dev-packages]
 
