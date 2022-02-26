@@ -4,6 +4,7 @@
 
 from abc import ABC, abstractmethod
 
+
 class Rule(ABC):
     """A rule for the directory structure"""
 
@@ -21,7 +22,7 @@ class Rule(ABC):
 class NoUnknownDirectories(Rule):
     """No unknown (not declared in the directory structure) directories allowed rule."""
 
-    key = 'noUnknownDirectories'
+    key = "noUnknownDirectories"
 
     def __repr__(self) -> str:
         "NoUnknownDirectories()"
@@ -33,7 +34,7 @@ class NoUnknownDirectories(Rule):
 class NoVisibleFiles(Rule):
     """No visible files allowed rule."""
 
-    key = 'noVisibleFiles'
+    key = "noVisibleFiles"
 
     def __repr__(self) -> str:
         "NoVisibleFiles()"
@@ -45,7 +46,7 @@ class NoVisibleFiles(Rule):
 class NoHiddenFiles(Rule):
     """No hidden files allowed rule."""
 
-    key = 'noHiddenFiles'
+    key = "noHiddenFiles"
 
     def __repr__(self) -> str:
         "NoHiddenFiles()"
