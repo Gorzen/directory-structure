@@ -67,7 +67,7 @@ class StructurePrettyPrinter:
 
         subdirs = get_subdirs(directory)
 
-        self.__print_dir_name(name, os.path.isdir(path), prefix_name)
+        self.__print_dir_name(name, is_dir(path), prefix_name)
 
         pointer = "│ " if subdirs else "  "
 
@@ -80,26 +80,44 @@ class StructurePrettyPrinter:
 
         Prints warning if dir_exists is False.
         """
-        warning = (
-            ""
-            if dir_exists
-            else f" {style.BOLD}{style.RED}(doesn't exist){style.RESET}"
-        )
-        check = (
-            f" {style.BOLD}{style.GREEN}(OK: directory exists){style.RESET}"
-            if dir_exists and self.print_checks
-            else ""
-        )
-        print(f"{prefix}{style.YELLOW}{style.BOLD}{name}{style.RESET}{warning}{check}")
+        check = ""
+
+        if dir_exists and self.print_checks:
+            check += f" {style.BOLD}{style.GREEN}"
+            check += "(OK: directory exists)"
+            check += f"{style.RESET}"
+
+        elif not dir_exists:
+            check += f" {style.BOLD}{style.RED}"
+
+            if self.print_checks:
+                check += "(NOT OK: directory doesn't exist)"
+            else:
+                check += "(doesn't exist)"
+
+            check += f"{style.RESET}"
+
+        print(f"{prefix}{style.YELLOW}{style.BOLD}{name}{style.RESET}{check}")
 
     @staticmethod
     def __print_dir_info(desc: str, path: str, prefix_info: str) -> None:
         """Pretty-print directory information."""
+        # Print description
         print(f"{prefix_info}{style.MAGENTA}Desc:{style.RESET}", end=" ")
         print(f"{desc}")
+
+        # Print path
         print(f"{prefix_info}{style.MAGENTA}Path:{style.RESET}", end="")
         print(f"{style.CYAN}{path}{style.RESET}")
+
+        # Print padding line
         print(f"{prefix_info}")
+
+
+def is_dir(path: str) -> bool:
+    """Return true if path is a directory, false otherwise."""
+    expanded_path = os.path.expanduser(path)
+    return os.path.isdir(expanded_path)
 
 
 def get_subdirs(directory: dict) -> list:

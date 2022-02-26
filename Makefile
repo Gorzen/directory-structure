@@ -26,7 +26,7 @@ test:
 	-mypy src/
 	@echo ""
 	@echo "========================================   Bandit   ========================================"
-	# Bandit - find common securit issues
+	# Bandit - find common security issues
 	-bandit --quiet --recursive src/
 
 .PHONY: init run test
