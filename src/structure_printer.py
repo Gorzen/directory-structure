@@ -5,6 +5,7 @@
 import os
 
 import check
+from logger import Logger
 from rules import ALL_RULES
 import style
 
@@ -30,10 +31,11 @@ class StructurePrettyPrinter:
     all_dirs_exist: bool
     all_rules_pass: bool
 
-    def __init__(self, check_rules: bool, print_checks: bool) -> None:
+    def __init__(self, check_rules: bool, print_checks: bool, logger: Logger) -> None:
         """Initialize object StructurePrettyPrinter."""
         self.check_rules = check_rules
         self.print_checks = print_checks
+        self.logger = logger
 
     def __repr__(self) -> str:
         """Return a representation of a StructurePrettyPrinter object."""
