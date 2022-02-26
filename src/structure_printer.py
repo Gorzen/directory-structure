@@ -2,6 +2,8 @@
 
 """Pretty printer for directory strucure, similar to the tree command."""
 
+import os
+
 import style
 
 # prefix components
@@ -17,7 +19,7 @@ def print_dir_structure(dir_structure: dict) -> None:
     """Print the total directory structure in a tree-like fashion."""
     directories = assert_list(dir_structure["directories"])
 
-    print_dir_name("My directories")
+    print_dir_name("My directories", dir_exists=True)
     print(BRANCH)
 
     print_sub_dirs(directories)
@@ -44,7 +46,7 @@ def print_directory(
 
     subdirs = get_subdirs(directory)
 
-    print_dir_name(name, prefix_name)
+    print_dir_name(name, os.path.isdir(path), prefix_name)
 
     pointer = "│ " if subdirs else "  "
 
@@ -52,9 +54,15 @@ def print_directory(
     print_sub_dirs(subdirs, prefix_info, path)
 
 
-def print_dir_name(name: str, prefix: str = "") -> None:
-    """Pretty-print directory name."""
-    print(f"{prefix}{style.YELLOW}{style.BOLD}{name}{style.RESET}")
+def print_dir_name(name: str, dir_exists: bool, prefix: str = "") -> None:
+    """
+    Pretty-print directory name.
+    Prints warning if directory doesn't exist.
+    """
+    warning = (
+        "" if dir_exists else f" {style.BOLD}{style.RED}(doesn't exist){style.RESET}"
+    )
+    print(f"{prefix}{style.YELLOW}{style.BOLD}{name}{style.RESET}{warning}")
 
 
 def print_dir_info(desc: str, path: str, prefix_info: str) -> None:

@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Directory structure run file. Run it to see and check your directory structure vs your config."""
+"""Manage directories main run file. Run it to see and check your directory structure vs your config."""
 
 # TODOS:
-# Clean project structure? With module, config, doc, setup.py, __init__.py, ...?
-# Clean argparse
 # Add rule for unknown directories
 # Change 'check' function names to assert if they throw erros and don't return bool
 # Check if directory exists, print red warning next to name if not
-# Add argparse
+# Add option to give config path
 # Implement options
 # Add logger with verbose:
 #   log OK  - dir - no hidden file

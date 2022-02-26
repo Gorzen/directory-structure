@@ -4,7 +4,7 @@
 
 
 class Logger:
-    """Class used for logging at different levels."""
+    """Class used for logging messages."""
 
     def __init__(self, is_verbose):
         self.is_verbose = is_verbose
