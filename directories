@@ -7,6 +7,7 @@
 # Clean argparse
 # Add main function
 # Add rule for unknown directories
+# Change 'check' function names to assert if they throw erros and don't return bool
 
 import os
 import yaml
@@ -15,7 +16,7 @@ from structure_printer import print_dir_structure, get_subdirs
 from rules import ALL_RULES
 
 
-def check_rules_equal(dir_structure):
+def check_rules_equal(dir_structure: dict) -> None:
     """Check config rules and implemented rules are the same."""
     config_rules = list(dir_structure['rules'].keys())
     script_rules = list(map(lambda rule: rule.key, ALL_RULES))
@@ -27,7 +28,7 @@ def check_rules_equal(dir_structure):
         Implemented rules: {script_rules}""")
 
 
-def check_rules(dir_structure):
+def check_rules(dir_structure: dict) -> None:
     """Check user directories follow the rules specified in the config."""
     check_rules_equal(dir_structure)
 
@@ -47,7 +48,7 @@ def check_rules(dir_structure):
 
     return 0
 
-def main():
+def main() -> None:
     """Main function."""
 
     # This script's path

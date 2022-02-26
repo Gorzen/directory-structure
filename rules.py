@@ -7,11 +7,13 @@ from abc import ABC, abstractmethod
 class Rule(ABC):
     """A rule for the directory structure"""
 
-    def __repr__(self):
+    key: str
+
+    def __repr__(self) -> str:
         "Rule()"
 
     @abstractmethod
-    def check(self, path):
+    def check(self, path: str) -> bool:
         """Check that rule is valid for the directory located at path"""
         return NotImplemented
 
@@ -21,10 +23,10 @@ class NoUnknownDirectories(Rule):
 
     key = 'noUnknownDirectories'
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         "NoUnknownDirectories()"
 
-    def check(self, path):
+    def check(self, path: str) -> bool:
         return True
 
 
@@ -33,10 +35,10 @@ class NoVisibleFiles(Rule):
 
     key = 'noVisibleFiles'
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         "NoVisibleFiles()"
 
-    def check(self, path):
+    def check(self, path: str) -> bool:
         return True
 
 
@@ -45,10 +47,10 @@ class NoHiddenFiles(Rule):
 
     key = 'noHiddenFiles'
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         "NoHiddenFiles()"
 
-    def check(self, path):
+    def check(self, path: str) -> bool:
         return True
 
 
