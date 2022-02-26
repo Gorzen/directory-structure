@@ -59,15 +59,11 @@ def check_rules0(dir_structure: dict) -> None:
 
 def main(print_rules: bool, check_rules: bool, verbose: bool) -> None:
     """Main function."""
-
-    # This script's path
-    __location__ = os.path.realpath(
-        os.path.join(os.getcwd(), os.path.dirname(__file__))
+    dir_structure_path = os.path.join(
+        os.path.dirname(__file__), "..", "config", "directories_structure.yml"
     )
 
-    directories_file = os.path.join(__location__, "directories.yml")
-
-    with open(directories_file, "r", encoding="utf-8") as dir_structure_file:
+    with open(dir_structure_path, "r", encoding="utf-8") as dir_structure_file:
         try:
             dir_structure = yaml.safe_load(dir_structure_file)
 
