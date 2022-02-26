@@ -1,0 +1,49 @@
+# YAML structure:
+#  List of rules and their default values
+#  List of directories
+#
+# Directory structure:
+#  Mandatory fields: field name - field description
+#   path    - directory path
+#   name    - display name of directory
+#   desc    - description of directory
+#   subdirs - list of sub-directories
+#
+# Rules for directories:
+#  noUnknownDirectories - specifies if directory is allowed to have sub-directories others that the ones declared in this YAML
+#  noVisibleFiles       - specifies if directory is allowed to contain visible files
+#  noHiddenFiles        - specifies if directory is allowed to contain hidden files
+
+rules:
+  noUnknownDirectories: true
+  noVisibleFiles: true
+  noHiddenFiles: true
+
+directories:
+  - path: "~/Documents"
+    name: "Documents"
+    desc: "Personal documents"
+    subdirs:
+    - path: "/Code"
+      name: "Code projects"
+      desc: "Contains all my personal code projects"
+      subdirs:
+      - path: "/tests"
+        name: "Code tests"
+        desc: "For quickly writing test programs"
+    - path: "/Notes"
+      name: "Notes"
+      desc: "Contains all my notes"
+      subdirs:
+      - path: "/Quick-notes"
+        name: "Quick notes"
+        desc: "Quick notes"
+      - path: "/Projects-notes"
+        name: "Projects notes"
+        desc: "Projects notes"
+      - path: "/Thoughts-notes"
+        name: "Thoughts notes"
+        desc: "Thoughts notes"
+  - path: "~/Images"
+    name: "Images"
+    desc: "Contains all images"
