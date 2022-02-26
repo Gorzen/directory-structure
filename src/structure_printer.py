@@ -92,10 +92,10 @@ class StructurePrettyPrinter:
     @staticmethod
     def __print_dir_info(desc: str, path: str, prefix_info: str) -> None:
         """Pretty-print directory information."""
-        print(f"{prefix_info}{style.MAGENTA}Desc:{style.RESET} {desc}")
-        print(
-            f"{prefix_info}{style.MAGENTA}Path:{style.RESET} {style.CYAN}{path}{style.RESET}"
-        )
+        print(f"{prefix_info}{style.MAGENTA}Desc:{style.RESET}", end=" ")
+        print(f"{desc}")
+        print(f"{prefix_info}{style.MAGENTA}Path:{style.RESET}", end="")
+        print(f"{style.CYAN}{path}{style.RESET}")
         print(f"{prefix_info}")
 
 

@@ -9,6 +9,7 @@ mypy = "*"
 pylint = "*"
 black = "*"
 types-pyyaml = "*"
+flake8 = "*"
 
 [dev-packages]
 
