@@ -4,11 +4,18 @@
 """Directory structure run file. Run it to see and check your directory structure vs your config."""
 
 # TODOS:
+# Clean project structure? With module, config, doc, setup.py, __init__.py, ...?
 # Clean argparse
-# Add main function
 # Add rule for unknown directories
 # Change 'check' function names to assert if they throw erros and don't return bool
+# Check if directory exists, print red warning next to name if not
+# Add argparse
+# Implement options
+# Add logger with verbose:
+#   log OK  - dir - no hidden file
+#   or   NOT OK - dir - [list of files]
 
+import argparse
 import os
 import yaml
 
@@ -28,7 +35,7 @@ def check_rules_equal(dir_structure: dict) -> None:
         Implemented rules: {script_rules}""")
 
 
-def check_rules(dir_structure: dict) -> None:
+def check_rules0(dir_structure: dict) -> None:
     """Check user directories follow the rules specified in the config."""
     check_rules_equal(dir_structure)
 
@@ -48,7 +55,7 @@ def check_rules(dir_structure: dict) -> None:
 
     return 0
 
-def main() -> None:
+def main(print_rules: bool, check_rules: bool, verbose: bool) -> None:
     """Main function."""
 
     # This script's path
@@ -62,7 +69,7 @@ def main() -> None:
 
             print_dir_structure(dir_structure)
 
-            check_rules(dir_structure)
+            check_rules0(dir_structure)
 
         except yaml.YAMLError as exc:
             print("Error when loading yaml:")
@@ -70,4 +77,12 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    # Parse arguments
+    parser = argparse.ArgumentParser(description='Monitor your directory structure.')
+    parser.add_argument('-v', '--verbose', action='store_true', help='verbose. Useful when checking rules.')
+    parser.add_argument('--check-rules', action='store_true', help='Check directory rules.')
+    parser.add_argument('--print-rules', action='store_true', help='Print in the tree the status of rules for each directory.')
+    args = parser.parse_args()
+
+    # Run main
+    main(args.print_rules, args.check_rules, args.verbose)
