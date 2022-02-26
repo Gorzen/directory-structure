@@ -32,7 +32,7 @@ class StructurePrettyPrinter:
         """Print the total directory structure in a tree-like fashion."""
         directories = assert_list(dir_structure["directories"])
 
-        self.__print_dir_name("My directories", dir_exists=True)
+        self.__print_dir_name("My directories")
         print(BRANCH)
 
         self.__print_sub_dirs(directories)
@@ -67,19 +67,17 @@ class StructurePrettyPrinter:
 
         subdirs = get_subdirs(directory)
 
-        self.__print_dir_name(name, is_dir(path), prefix_name)
+        dir_check = self.__is_dir_check(path)
+        self.__print_dir_name(name, prefix_name, dir_check)
 
         pointer = "│ " if subdirs else "  "
 
         self.__print_dir_info(desc, path, prefix_info + pointer)
         self.__print_sub_dirs(subdirs, prefix_info, path)
 
-    def __print_dir_name(self, name: str, dir_exists: bool, prefix: str = "") -> None:
-        """
-        Pretty-print directory name.
-
-        Prints warning if dir_exists is False.
-        """
+    def __is_dir_check(self, path) -> str:
+        """Get is_directory check message."""
+        dir_exists = is_dir(path)
         check = ""
 
         if dir_exists and self.print_checks:
@@ -97,6 +95,11 @@ class StructurePrettyPrinter:
 
             check += f"{style.RESET}"
 
+        return check
+
+    @staticmethod
+    def __print_dir_name(name: str, prefix: str = "", check: str = "") -> None:
+        """Pretty-print directory name."""
         print(f"{prefix}{style.YELLOW}{style.BOLD}{name}{style.RESET}{check}")
 
     @staticmethod
