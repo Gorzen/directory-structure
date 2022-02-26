@@ -11,6 +11,7 @@ black = "*"
 types-pyyaml = "*"
 flake8 = "*"
 pydocstyle = "*"
+bandit = "*"
 
 [dev-packages]
 

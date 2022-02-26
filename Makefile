@@ -6,18 +6,27 @@ run:
 	python src/directories.py
 
 test:
+	@echo "========================================   Black    ========================================"
 	# Black formatter
 	-black src/
 	@echo ""
-	# flake8 style guide enforcement
+	@echo "========================================   Flake8   ========================================"
+	# flake8 - style guide enforcement
 	-flake8 src/
 	@echo ""
-	# pydocstyle docstring style checker
+	@echo "======================================== pydocstyle ========================================"
+	# pydocstyle - docstring style checker
 	-pydocstyle src/
 	@echo ""
-	# Pylint code analysis
+	@echo "========================================   Pylint   ========================================"
+	# Pylint - code analysis
 	-pylint src/
-	# Mypy static type checker
+	@echo "========================================    Mypy    ========================================"
+	# Mypy - static type checker
 	-mypy src/
+	@echo ""
+	@echo "========================================   Bandit   ========================================"
+	# Bandit - find common securit issues
+	-bandit --quiet --recursive src/
 
 .PHONY: init run test
