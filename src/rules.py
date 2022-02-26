@@ -4,6 +4,8 @@
 
 from abc import ABC, abstractmethod
 
+import check
+
 
 class Rule(ABC):
     """A rule for the directory structure."""
@@ -68,3 +70,44 @@ class NoHiddenFiles(Rule):
 
 # All the defined rules
 ALL_RULES = [NoUnknownDirectories(), NoVisibleFiles(), NoHiddenFiles()]
+
+
+def check_rules(
+    directory: dict,
+    rules_config: dict,
+    dir_path: str,
+    print_checks: bool,
+    prefix_print: str,
+) -> bool:
+    """Check all rules pass for a given directory.
+
+    Keyword arguments:
+    directory    -- The directory
+    rules_config -- The rules config
+    dir_path     -- The directory's path
+    print_checks -- Wether to print the rules checked or not
+    prefix_print -- Prefix for the checks printed
+    """
+    all_rules_pass = True
+
+    for rule in ALL_RULES:
+        # Find if we should check the rule or not
+        check_rule = directory.get(rule.key, rules_config[rule.key])
+
+        if check_rule:
+            rule_checked = rule.check(dir_path)
+            all_rules_pass = all_rules_pass and rule_checked
+            info = ""
+        else:
+            rule_checked = True
+            info = " (rule set to false, check will always pass)"
+
+        if print_checks:
+            check_msg = (
+                check.success(f"{rule.name}{info}", print_checks)
+                if rule_checked
+                else check.failure(f"{rule.name}{info}", print_checks)
+            )
+            print(f"{prefix_print}{check_msg}")
+
+    return all_rules_pass
