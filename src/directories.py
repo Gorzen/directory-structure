@@ -13,6 +13,7 @@ Run it to see and check your directory structure vs your config.
 # Check if directory exists, print red warning next to name if not
 # Add option to give config path
 # Implement options
+# Use tox?
 # Add GitHub actions
 # Add badges in README for all python checkers
 # Add logger with verbose:
