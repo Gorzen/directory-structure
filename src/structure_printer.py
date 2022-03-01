@@ -96,7 +96,7 @@ class StructurePrettyPrinter:
 
         # Check if directory exists
         expanded_path = expand_user(path)
-        dir_exists = is_dir(path)
+        dir_exists = is_dir(expanded_path)
         self.all_dirs_exist = dir_exists and self.all_dirs_exist
         dir_check = (
             check.success("directory exists", self.print_checks, True, True, " ")
