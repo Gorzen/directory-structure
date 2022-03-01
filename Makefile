@@ -1,9 +1,5 @@
 default: test
 
-init:
-	pipenv install
-	pipenv shell
-
 run:
 	python src/directories.py
 
@@ -31,4 +27,4 @@ test:
 	# Bandit - find common security issues
 	-bandit --quiet --recursive src/
 
-.PHONY: init run test
+.PHONY: default run test
