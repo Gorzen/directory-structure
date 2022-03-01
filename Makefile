@@ -6,7 +6,7 @@ run:
 test:
 	@echo "========================================   Black    ========================================"
 	# Black formatter
-	-black src/
+	-black --check src/
 	@echo ""
 	@echo "========================================   Flake8   ========================================"
 	# flake8 - style guide enforcement

@@ -15,6 +15,7 @@ Run it to see and check your directory structure vs your config.
 # Use tox?
 # Add README
 # Add GitHub actions
+# Rename directories.py
 # Add badges in README for all python checkers
 # Improve check.py, a bit too much code to print the success msg.
 #   Add another function for printing?
