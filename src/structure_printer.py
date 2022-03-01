@@ -131,7 +131,9 @@ class StructurePrettyPrinter:
     def __print_global_checkers(self) -> None:
         # Print all_dirs_exist check
         if self.all_dirs_exist:
-            print(check.success("All directories exist !", self.print_checks, True))
+            msg = check.success("All directories exist !", self.print_checks, True)
+            if msg:
+                print(msg)
         else:
             print(check.failure("Not all directories exist.", self.print_checks))
 

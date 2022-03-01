@@ -1,3 +1,5 @@
+default: test
+
 init:
 	pipenv install
 	pipenv shell

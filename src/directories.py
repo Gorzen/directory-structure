@@ -16,6 +16,8 @@ Run it to see and check your directory structure vs your config.
 # Add README
 # Add GitHub actions
 # Add badges in README for all python checkers
+# Improve check.py, a bit too much code to print the success msg.
+#   Add another function for printing?
 # Add logger with verbose for rules:
 #   log OK  - dir - no hidden file
 #   or   NOT OK - dir - [list of files]
