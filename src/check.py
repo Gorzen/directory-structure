@@ -29,6 +29,7 @@ def success(
     message = f"{prefix}{style.BOLD}{style.GREEN}{message}{style.RESET}"
 
     if empty_on_success and not show_checks:
+        # TODO: If printed, it will still put a newline
         return ""
 
     return message

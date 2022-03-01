@@ -4,7 +4,7 @@
 
 import check
 from logger import Logger
-from helpers import is_dir, get_subdirs, assert_list
+from helpers import is_dir, get_subdirs, assert_list, expand_user
 from printers import print_dir_info, print_dir_name
 import rules
 
@@ -95,6 +95,7 @@ class StructurePrettyPrinter:
         subdirs = get_subdirs(directory)
 
         # Check if directory exists
+        expanded_path = expand_user(path)
         dir_exists = is_dir(path)
         self.all_dirs_exist = dir_exists and self.all_dirs_exist
         dir_check = (
@@ -114,8 +115,8 @@ class StructurePrettyPrinter:
         if self.check_rules:
             rules_pass = rules.check_rules(
                 directory,
+                expanded_path,
                 self.rules_config,
-                path,
                 self.print_checks,
                 prefix_info + pointer,
             )

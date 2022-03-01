@@ -16,6 +16,7 @@
 
 rules:
   noUnknownDirectories: true
+  noHiddenDirectories: true
   noVisibleFiles: true
   noHiddenFiles: true
 
